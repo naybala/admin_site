@@ -477,9 +477,7 @@ const otherLinks = computed(() =>
     <div v-if="props.isOpen">
       <p class="text-center text-xs text-gray-400">
         Developed By
-        <a href="https://bigsoft.tech/" target="_blank"
-          >BigSoft Technology PLC</a
-        >
+        <a href="https://yokekan.com" target="_blank">Yoke Kan Technology</a>
       </p>
       <p class="text-center text-xs text-gray-400">version (1.0)</p>
     </div>
