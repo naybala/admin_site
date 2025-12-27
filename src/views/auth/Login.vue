@@ -1,6 +1,6 @@
 <template>
   <div
-    class="flex flex-col md:flex-row min-h-screen p-0 md:p-2 lg:p-14 main-bg transition-all duration-1000 ease-in-out"
+    class="flex flex-col md:flex-row md:h-screen p-0 md:p-2 lg:p-14 main-bg transition-all duration-1000 ease-in-out"
   >
     <!-- Privacy Policy Modal -->
     <PrivacyModal
@@ -8,103 +8,87 @@
       @close="handleModalClose"
       @accept="handlePrivacyAccept"
     />
-
-    <!-- OTP Modal -->
-    <Otp
-      v-model:show="showOtpModal"
-      @verify="handleOtpVerify"
-      @close="handleOtpClose"
-    />
-
     <!-- Left Side - Image -->
     <div
       :class="[
-        'flex flex-col items-center justify-center bg-gray-300 rounded-none lg:rounded-s-lg transition-all duration-1000 ease-in-out overflow-hidden p-4',
+        'flex items-center justify-center bg-gray-300 rounded-none lg:rounded-s-lg transition-all duration-1000 ease-in-out overflow-hidden',
         isLoginSuccessful ? 'w-full' : 'w-full md:w-1/2',
       ]"
     >
-      <div class="max-w-md w-full text-center">
+      <div>
         <img
           :src="qrCode"
           alt="Login Illustration"
-          class="w-44 h-44 md:w-64 md:h-64 lg:w-80 lg:h-80 mx-auto rounded-lg transition-all duration-700 ease-in-out mt-5 md:mt-0 object-contain"
+          class="w-44 h-44 md:w-80 md:h-80 mx-auto rounded-lg transition-all duration-700 ease-in-out mt-5 md:mt-0"
         />
-        <p
-          class="text-center mt-6 md:text-md lg:text-xl text-black break-words"
-        >
+        <p class="text-center mt-10 md:text-md lg:text-xl text-black">
           YOUR DIGITAL REAL ESTATE PLATFORM
         </p>
-        <p class="text-center mb-6 text-black break-words">
+        <p class="text-center mb-10 text-black">
           Download the app to get started
         </p>
         <a href="https://app.bayonapp.com/" target="_blank">
           <img
             :src="appStorePlayStoreLogo"
-            alt="App Store and Play Store Logos"
-            class="w-60 h-auto max-w-full mx-auto rounded-lg transition-all duration-700 ease-in-out mb-3 md:mb-0"
+            alt="Login Illustration"
+            class="w-60 h-10 md:w-auto md:h-10 mx-auto rounded-lg transition-all duration-700 ease-in-out mb-3 md:mb-0"
           />
         </a>
+        <br />
       </div>
     </div>
 
     <!-- Right Side - Login Form -->
     <div
-      v-if="!isLoginSuccessful && isHydrated"
-      class="w-full md:w-1/2 flex items-center justify-center bg-gray-100 rounded-none lg:rounded-e-lg transition-opacity duration-700 ease-in-out p-4"
+      v-if="!isLoginSuccessful"
+      class="w-full md:w-1/2 flex items-center justify-center bg-gray-100 rounded-none lg:rounded-e-lg transition-opacity duration-700 ease-in-out"
     >
-      <div class="w-full max-w-lg p-6 sm:p-10">
-        <img
-          :src="LoginLogo"
-          alt="Bayon App Logo"
-          class="w-32 h-32 mx-auto mb-6 object-contain"
-        />
-        <h1
-          class="text-2xl font-bold text-center text-brand-secondary mb-6 break-words"
-        >
+      <div class="w-full max-w-xl p-10">
+        <img :src="LoginLogo" alt="" class="w-40 h-40 mx-auto" />
+        <h1 class="text-2xl font-bold text-center text-brand-secondary mb-6">
           Welcome to BAYON APP
         </h1>
-        <div
-          class="flex flex-col sm:flex-row justify-center items-center gap-3 mb-4"
+        <label for="" class="text-sm text-balance text-gray-400 ms-1"
+          >User Email Or Phone Number</label
         >
-          <div class="w-full sm:w-auto flex-grow">
-            <!-- Country -->
-            <SelectItem
-              id="phoneNumberPrefixRequired"
-              v-model="countryCode"
-              label="Country Code"
-              :options="countries"
-              placeholder="KHR"
-              optionLabel="countryCode"
-              optionValue="code"
-              :showFlag="true"
-            />
-          </div>
+        <input
+          v-model="username"
+          type="text"
+          placeholder="Username"
+          required
+          class="w-full mb-4 px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-brand-primary"
+        />
+        <label for="" class="text-sm text-balance text-gray-400 ms-1"
+          >Password</label
+        >
+        <div class="relative">
+          <input
+            @keyup.enter="handleLogin"
+            v-model="password"
+            :type="showPassword ? 'text' : 'password'"
+            placeholder="Password"
+            required
+            class="w-full mb-4 px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-brand-primary"
+          />
 
-          <div class="w-full sm:w-auto flex-grow">
-            <NameField
-              id="phoneNumber"
-              v-model="username"
-              label="Phone Number"
-            />
-          </div>
-        </div>
-
-        <div class="flex justify-center gap-3 px-0 sm:px-4 mb-4">
           <button
-            @click="handleLogin"
-            :disabled="username == ''"
-            class="w-full bg-brand-primary text-white py-2 rounded-md hover:bg-brand-primary-dark transition-colors duration-200 disabled:opacity-50"
+            type="button"
+            @click="toggleShowPassword"
+            class="absolute right-2 top-2 text-sm text-gray-500 hover:text-gray-700 dark:text-gray-300 dark:hover:text-white"
+            aria-label="Toggle password visibility"
           >
-            <span>Login</span>
+            {{ showPassword ? "hide" : "show" }}
           </button>
         </div>
 
-        <div class="flex justify-center items-center mb-4">
-          <GoogleSignInButton
-            @success="handleLoginSuccess"
-            @error="handleLoginError"
-          />
-        </div>
+        <button
+          @click="handleLogin"
+          :disabled="loading"
+          class="w-full bg-brand-primary text-white py-2 rounded-md hover:bg-brand-primary-dark transition-colors duration-200 disabled:opacity-50"
+        >
+          <span v-if="!loading">Login</span>
+          <span v-else>Logging in...</span>
+        </button>
 
         <!-- Privacy Policy Link -->
         <div class="mt-4 text-center">
@@ -116,27 +100,15 @@
           </button>
         </div>
 
-        <div class="mt-6 md:mt-12 text-center px-2">
-          <p class="text-xs dark:text-black break-words">
+        <div class="mt-6 md:mt-16">
+          <p class="text-xs dark:text-black">
             {{ stringOne }}
           </p>
-          <p class="text-xs dark:text-black mt-2 break-words">
-            {{ stringTwo }}
-          </p>
+          <p class="text-xs dark:text-black">{{ stringTwo }}</p>
         </div>
-      </div>
-    </div>
-
-    <!-- Loading State -->
-    <div
-      v-if="!isHydrated"
-      class="w-full flex items-center justify-center bg-gray-100 rounded-none lg:rounded-e-lg p-4"
-    >
-      <div class="text-center">
-        <div
-          class="animate-spin rounded-full h-12 w-12 border-b-2 border-brand-primary mx-auto"
-        ></div>
-        <p class="text-lg mt-4">Loading...</p>
+        <p v-if="error" class="text-red-500 text-sm mt-4 text-center">
+          {{ error }}
+        </p>
       </div>
     </div>
   </div>
@@ -148,46 +120,25 @@ import { useRouter, useRoute } from "vue-router";
 
 // Import the modal component
 import PrivacyModal from "@/components/Login/PrivacyModal.vue";
+
+import useAuthData from "@composables/auth";
 import { useAppToast } from "@composables/common/useAppToast";
 import LoginLogo from "../../assets/web_app.svg";
 import qrCode from "../../assets/images/qr-code.png";
 import appStorePlayStoreLogo from "../../assets/images/appstore-playstorelogo.png";
-import Otp from "./Otp.vue";
-import SelectItem from "@/components/common/SelectItem.vue";
-import useOtp from "@composables/auth/useOtp";
-import NameField from "@/components/common/NameField.vue";
-import { GoogleSignInButton } from "vue3-google-signin";
-import { jwtDecode } from "jwt-decode";
-import useEmail from "@composables/auth/useEmail";
-import { useAuthStore } from "@stores/auth";
-
-type GoogleUser = {
-  email: string;
-  name: string;
-  picture: string;
-  sub: string; // Google user ID
-};
 
 const username = ref("");
+const password = ref("");
 const stringOne = ref<string>(
   "* To use our platform you should register for your new account from the mobile app."
 );
 const stringTwo = ref<string>("* Scan QR Code to download the app.");
-const showOtpModal = ref(false);
-const otpVerified = ref(false);
-const countryCode = ref<string>("+855");
-const countries: any = inject("countryList");
 
 const isLoginSuccessful = ref(true);
 const showPrivacyModal = ref(false);
 const autoCountryCode: any = inject("autoCountryCode");
-const isHydrated = ref(false);
 
-const authStore = useAuthStore();
-const router = useRouter();
-const route = useRoute();
-
-// Language dictionary by country calling code
+//  Language dictionary by country calling code
 const languageMap: Record<string, { one: string; two: string }> = {
   "+855": {
     one: "* ដើម្បីប្រើប្រាស់វេទិការបស់យើង អ្នកគួរតែចុះឈ្មោះសម្រាប់គណនីថ្មីរបស់អ្នកពីកម្មវិធីទូរស័ព្ទ។.",
@@ -202,7 +153,7 @@ const languageMap: Record<string, { one: string; two: string }> = {
     two: "* สแกน QR Code เพื่อดาวน์โหลดแอป.",
   }, // Thailand
   "+84": {
-    one: "* Để sử dụng nền tảng của chúng tôi, bạn nên đăng ký tài khoản mới từ ứng dụng di động.",
+    one: "* Để sử dụng nền tảngของ chúng tôi, bạn nên đăng ký tài khoản mới từ ứng dụng di động.",
     two: "* Quét mã QR để tải ứng dụng.",
   }, // Vietnam
   "+62": {
@@ -218,7 +169,7 @@ const languageMap: Record<string, { one: string; two: string }> = {
     two: "* アプリをダウンロードするにはQRコードをスキャンしてください。",
   }, // Japan
   "+82": {
-    one: "* 플랫폼을 사용하려면 모바일 앱에서 새 계정을 등록해야 합니다。",
+    one: "* 플랫폼을 사용하려면 모바일 앱에서 새 계정을 등록해야 합니다.",
     two: "* 앱을 다운로드하려면 QR 코드를 스캔하세요。",
   }, // South Korea
   "+86": {
@@ -231,7 +182,7 @@ const languageMap: Record<string, { one: string; two: string }> = {
   }, // India
   "+92": {
     one: "* ہمارے پلیٹ فارم کو استعمال کرنے کے لیے آپ کو موبائل ایپ سے اپنا نیا اکاؤنٹ رجسٹر کرنا چاہیے۔",
-    two: "* ایپ ڈاؤن لوڈ کرنے کے لیے QR کوڈ اسکین کریں۔",
+    two: "* ایپ ڈاؤن لوڈ کرنے کے لیے QR کوڈ اسکین کریں।",
   }, // Pakistan
   "+94": {
     one: "* අපගේ වේදිකාව භාවිතා කිරීමට, ඔබට ඔබේ නව ගිණුම ජංගම යෙදුමෙන් ලියාපදිංචි කළ යුතුය.",
@@ -263,112 +214,73 @@ watch(
   (newVal) => {
     if (newVal) updateLanguage(newVal);
   },
-  { immediate: true }
+  { immediate: true } // ensures it runs on component mount too
 );
 
+const router = useRouter();
+const route = useRoute();
+
+const showPassword = ref(false);
+
+function toggleShowPassword() {
+  showPassword.value = !showPassword.value;
+}
 function handleModalClose() {
   console.log("Privacy policy modal closed");
 }
 
 function handlePrivacyAccept() {
   console.log("Privacy policy accepted");
+  // You can add any logic here that should run when user accepts the privacy policy
+  // For example: track acceptance, enable features, etc.
 }
-
 const { showSuccess, showError } = useAppToast();
-const { smsCode, otpRequest, login } = useOtp();
-const { emailLogin } = useEmail();
+const { success, loading, error, fetchAuthData } = useAuthData();
 
-onMounted(async () => {
-  try {
-    // Wait for Pinia to hydrate from localStorage
-    await authStore.ensureHydrated();
-
-    // Check if user is already authenticated
-    if (authStore.token) {
-      await router.push("/dashboard");
-      return;
-    }
-
-    // If not authenticated, show login form
-    if (autoCountryCode?.value) updateLanguage(autoCountryCode.value);
-
-    setTimeout(() => {
-      isLoginSuccessful.value = false;
-      isHydrated.value = true;
-    }, 600);
-  } catch (error) {
-    console.error("Hydration error:", error);
-    // Fallback: show login form even if hydration fails
-    isHydrated.value = true;
+onMounted(() => {
+  if (autoCountryCode?.value) updateLanguage(autoCountryCode.value);
+  //  Trigger reverse animation on component mount
+  setTimeout(() => {
     isLoginSuccessful.value = false;
-  }
+  }, 600); // delay slightly to trigger CSS transition
 });
 
 const handleLogin = async () => {
-  const requestData = {
-    phoneNumberPrefix: countryCode.value,
-    phoneNumber: username.value,
-  };
-  showOtpModal.value = true;
-  await otpRequest(requestData);
-};
-
-const handleOtpVerify = async (otpCode: any) => {
-  const requestLoginData = {
-    phoneNumberPrefix: countryCode.value,
-    phoneNumber: username.value,
-  };
-
-  if (otpCode != smsCode.value) {
-    showError("Wrong OTP", "Please check carefully OTP code.");
-    return false;
+  if (!username.value || !password.value) {
+    error.value = "Please enter both email and password.";
+    return;
   }
 
-  await login(requestLoginData);
+  try {
+    loading.value = true;
 
-  otpVerified.value = true;
-  showOtpModal.value = false;
-  showSuccess("OTP Verified!", "You're being logged in...", 900);
+    const credentials = {
+      username: username.value,
+      password: password.value,
+    };
 
-  isLoginSuccessful.value = true;
-  setTimeout(() => {
-    const redirectTo = (route.query.redirect as string) || "/dashboard";
-    router.push(redirectTo);
-  }, 900);
-};
+    const response = await fetchAuthData(credentials);
 
-// handle success event
-const handleLoginSuccess = async (response: any) => {
-  const { credential } = response;
-  if (credential) {
-    const decoded = jwtDecode<GoogleUser>(credential);
-    const response: any = await emailLogin({ email: decoded.email });
-    if (response) {
-      showSuccess("Email Verified!", "You're being logged in...", 900);
+    if (success.value && response?.data?.token && response?.data?.user) {
+      showSuccess(`Welcome From BAYON APP!`, "Login successful.", 900);
+
+      //  Trigger expand animation
       isLoginSuccessful.value = true;
+      // Wait for animation to finish before redirect
       setTimeout(() => {
         const redirectTo = (route.query.redirect as string) || "/dashboard";
         router.push(redirectTo);
       }, 900);
     } else {
-      showError(
-        "Email Not found",
-        "Please register on BAYON mobile app first."
-      );
+      error.value = "Login failed. Please try again.";
+      showError("Login failed", error.value);
     }
-  } else {
-    console.warn("No credential received");
+  } catch (err) {
+    error.value = "An unexpected error occurred. Please try again.";
+    showError("Error", error.value);
+  } finally {
+    loading.value = false;
   }
-};
-
-// handle an error event
-const handleLoginError = () => {
-  console.error("Login failed");
-};
-
-const handleOtpClose = () => {
-  showOtpModal.value = false;
-  showError("OTP Required", "Please verify OTP to proceed.");
 };
 </script>
 

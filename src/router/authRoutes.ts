@@ -1,7 +1,6 @@
 import PrivacyPolicy from "@/views/auth/PrivacyPolicy.vue";
 import UnAuthorized from "@/views/UnAuthorized.vue";
 import Login from "@views/auth/Login.vue";
-import newLogin from "@/views/auth/newLogin.vue";
 
 export const authRoutes = [
   {
@@ -9,11 +8,7 @@ export const authRoutes = [
     name: "Login",
     component: Login,
   },
-  {
-    path: "/login-with-user",
-    name: "login-with-user",
-    component: newLogin,
-  },
+
   {
     path: "/unauthorized",
     name: "unauthorized",

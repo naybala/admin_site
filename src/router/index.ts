@@ -6,20 +6,8 @@ import { authRoutes } from "./authRoutes";
 import { dashboardRoute } from "./dashboardRoute";
 import { usePermissionStore } from "@stores/permission";
 import { PermissionsResponse } from "@/types";
-import { userRoutes } from "./userRoutes";
 import { apiRequest } from "@/composables/common/useApi";
-import { listingRoutes } from "./listingRoutes";
-import { autoRoutes } from "./autoRoutes";
-import { settingRoutes } from "./settingRoutes";
-import { userProfileRoutes } from "./userProfileRoutes";
-import { buyerRoutes } from "./buyerRoutes";
-import { socialRoutes } from "./socialRoutes";
-import { mapPriceRoutes } from "./mapPriceRoutes";
-import { agentRoutes } from "./agentRoutes";
-import { companyRoutes } from "./companyRoutes";
 import { associationRoutes } from "./associationRoutes";
-import { paymentRoutes } from "./paymentRoutes";
-import { userGuideRoutes } from "./userGuideRoutes";
 
 // Combine all routes
 const routes = [
@@ -27,21 +15,9 @@ const routes = [
     path: "/",
     redirect: "/login",
   },
-  ...userProfileRoutes,
   ...dashboardRoute,
-  ...associationRoutes,
-  ...agentRoutes,
-  ...companyRoutes,
-  ...listingRoutes,
-  ...buyerRoutes,
-  ...mapPriceRoutes,
-  ...userGuideRoutes,
   ...authRoutes,
-  ...userRoutes,
-  ...autoRoutes,
-  ...socialRoutes,
-  ...settingRoutes,
-  ...paymentRoutes,
+  ...associationRoutes,
 ];
 
 const router = createRouter({

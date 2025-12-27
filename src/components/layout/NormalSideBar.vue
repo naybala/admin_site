@@ -146,12 +146,9 @@ const otherLinks = computed(() =>
 
     <!-- Scrollable Menu Section -->
     <div class="flex-1 overflow-y-auto scrollbar-hidden">
-      <nav class="mt-4 mx-2">
+      <nav class="mt-4">
         <!-- Block 1: My Info -->
-        <ul
-          v-if="myInfoLinks.length > 0"
-          class="border border-gray-200 dark:border-gray-500 rounded-md mb-4"
-        >
+        <ul v-if="myInfoLinks.length > 0" class="mb-4">
           <li v-for="link in myInfoLinks" :key="link.path" class="relative">
             <template v-if="getFilteredChildren(link).length === 1">
               <!-- If the menu has exactly one visible child, show it directly -->
@@ -313,10 +310,8 @@ const otherLinks = computed(() =>
         </ul>
 
         <!-- Block 2: Other Links -->
-        <ul
-          v-if="otherLinks.length > 0"
-          class="border border-gray-200 dark:border-gray-500 rounded-md"
-        >
+
+        <ul v-if="otherLinks.length > 0" class="mb-4">
           <li v-for="link in otherLinks" :key="link.path" class="relative">
             <template v-if="getFilteredChildren(link).length === 1">
               <!-- If the menu has exactly one visible child, show it directly -->
@@ -477,7 +472,6 @@ const otherLinks = computed(() =>
           </li>
           <br />
         </ul>
-        <div class="w-full h-20"></div>
       </nav>
     </div>
     <div v-if="props.isOpen">

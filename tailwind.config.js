@@ -3,8 +3,8 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        "brand-primary": "#732c7c",
-        "brand-secondary": "#ef56ff ",
+        "brand-primary": "#f21111",
+        "brand-secondary": "#ba8888 ",
         "brand-tertiary": "#F2CB07",
 
         "btn-primary": "#CBE896",

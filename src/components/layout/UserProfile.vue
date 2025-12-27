@@ -45,7 +45,7 @@ const goToPackage = () => {
 };
 const imageSrc = computed(() => {
   if (!delayedImageUrl.value)
-    return "https://proptechapp.sgp1.cdn.digitaloceanspaces.com/default/association_default.png";
+    return "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQSeTVKIa06AyLE8P141lGazYtAgvdz-E2_6w&s";
 
   const url = new URL(delayedImageUrl.value);
   url.searchParams.set("t", Date.now().toString());
