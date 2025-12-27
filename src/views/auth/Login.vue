@@ -5,25 +5,23 @@
     <!-- Left Side - Image -->
     <div
       :class="[
-        'flex items-center justify-center bg-gray-300 rounded-none lg:rounded-s-lg transition-all duration-1000 ease-in-out overflow-hidden',
-        isLoginSuccessful ? 'w-full' : 'w-full md:w-1/2',
+        'relative flex items-center justify-center bg-gray-300 overflow-hidden transition-all duration-1000 ease-in-out diagonal-left',
+        isLoginSuccessful ? 'w-full' : 'w-full md:w-[55%]',
       ]"
     >
-      <div>
+      <div class="relative z-10">
         <img
           :src="hotelManagementLogo"
           alt="Login Illustration"
           class="w-44 h-44 md:w-full md:h-full mx-auto rounded-lg transition-all duration-700 ease-in-out mt-5 md:mt-0"
         />
-
-        <br />
       </div>
     </div>
 
     <!-- Right Side - Login Form -->
     <div
       v-if="!isLoginSuccessful"
-      class="w-full md:w-1/2 flex items-center justify-center bg-gray-100 rounded-none lg:rounded-e-lg transition-opacity duration-700 ease-in-out"
+      class="w-full md:w-[45%] flex items-center justify-center bg-gray-100 transition-opacity duration-700 ease-in-out"
     >
       <div class="w-full max-w-xl p-10">
         <img :src="logo" alt="" class="w-40 h-40 mx-auto" />
@@ -151,9 +149,30 @@ const handleLogin = async () => {
 
 <style scoped>
 .main-bg {
-  background-image: url("../../assets/images/main-bg.jpg");
+  background-image: white;
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center center;
+}
+
+.diagonal-left {
+  clip-path: ellipse(90% 90% at 10% 20%);
+}
+
+/* Mobile: disable diagonal */
+@media (max-width: 768px) {
+  .diagonal-left {
+    clip-path: none;
+  }
+}
+
+.diagonal-left::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: -1px;
+  width: 10px;
+  height: 100%;
+  background: linear-gradient(to right, rgba(192, 176, 176, 0), transparent);
 }
 </style>
