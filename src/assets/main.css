@@ -1,0 +1,180 @@
+@layer tailwind-base, primevue, tailwind-utilities;
+
+@layer tailwind-base {
+    @tailwind base;
+}
+
+@layer primevue {
+    /* PrimeVue theme styles will go here if you import them */
+    /* No explicit import needed here if using Aura preset via PrimeVue config */
+}
+
+@layer tailwind-utilities {
+    @tailwind components;
+    @tailwind utilities;
+}
+
+/* Hide scrollbar but allow scroll */
+.scrollbar-hidden {
+    scrollbar-width: none;
+    /* Firefox */
+    -ms-overflow-style: none;
+    /* Internet Explorer and Edge */
+}
+
+.scrollbar-hidden::-webkit-scrollbar {
+    display: none;
+    /* Chrome,
+    
+    Safari, Opera */
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+
+:deep(.p-datatable) {
+    border: 1px solid var(--surface-border);
+    border-radius: var(--border-radius);
+}
+
+.dark :deep(.p-datatable .p-datatable-thead th) {
+    background-color: var(--surface-800);
+    color: var(--surface-0);
+}
+
+.dark :deep(.p-datatable .p-datatable-tbody tr) {
+    background-color: var(--surface-900);
+    color: var(--surface-100);
+}
+
+.dark :deep(.p-inputtext) {
+    background-color: var(--surface-700);
+    color: var(--surface-0);
+    border-color: var(--surface-600);
+}
+
+.dark :deep(.p-inputtext:hover) {
+    border-color: var(--primary-color);
+}
+
+.p-paginator-page-selected {
+    border-radius: 0.6rem !important;
+    background-color: #EF53FF !important;
+    color: azure;
+}
+
+.p-paginator-content {
+    gap: 0 !important;
+}
+
+
+/* Global styles for Google Maps InfoWindow */
+.custom-info-window {
+    background-color: #8f0ea0 !important;
+    color: white !important;
+    border-radius: 8px !important;
+}
+
+.custom-info-window-container {
+    background-color: #8f0ea0 !important;
+}
+
+/* Target the main InfoWindow container */
+.gm-style-iw {
+    background-color: #8f0ea0 !important;
+    border: 1px solid #333 !important;
+    border-radius: 8px !important;
+    box-shadow: none !important;
+}
+
+/* Target the InfoWindow background */
+.gm-style-iw-chr {
+    background-color: #8f0ea0 !important;
+}
+
+.gm-style-iw-t::after {
+    background-color: #8f0ea0 !important;
+}
+
+/* Target the content area */
+.gm-style-iw-d {
+    background-color: #8f0ea0 !important;
+    color: white !important;
+    overflow: hidden !important;
+}
+
+.gm-style .gm-style-iw-tc::after {
+    background-color: #8f0ea0 !important;
+}
+
+/* Target the close button - CUSTOM STYLES */
+.gm-ui-hover-effect {
+    background-color: transparent !important;
+    border: none !important;
+    outline: none !important;
+    top: 4px !important;
+    right: 4px !important;
+    width: 20px !important;
+    height: 20px !important;
+    opacity: 0.8 !important;
+    transition: opacity 0.2s ease !important;
+}
+
+.gm-ui-hover-effect:hover {
+    opacity: 1 !important;
+    background-color: transparent !important;
+}
+
+/* Custom close icon using pseudo-elements */
+.gm-ui-hover-effect img {
+    display: none !important;
+}
+
+.gm-ui-hover-effect::before,
+.gm-ui-hover-effect::after {
+    content: "" !important;
+    position: absolute !important;
+    top: 50% !important;
+    left: 50% !important;
+    width: 14px !important;
+    height: 2px !important;
+    background-color: #ffffff !important;
+    border-radius: 1px !important;
+}
+
+.gm-ui-hover-effect::before {
+    transform: translate(-50%, -50%) rotate(45deg) !important;
+}
+
+.gm-ui-hover-effect::after {
+    transform: translate(-50%, -50%) rotate(-45deg) !important;
+}
+
+/* Alternative: Use a simple white X with better visibility */
+.gm-ui-hover-effect span {
+    display: none !important;
+}
+
+/* Target the content area */
+.gm-style-iw-d {
+    background-color: #8f0ea0 !important;
+    color: white !important;
+    overflow: hidden !important;
+    border-radius: 8px !important;
+}
+
+/* Remove the default close button image */
+.gm-style-iw button[title="Close"] img {
+    display: none !important;
+}
+
+.p-accordionpanel {
+    margin: 2rem !important;
+}
+
+.p-accordionpanel:hover {
+    background-color: #a19b9b !important;
+    border-radius: 0.6rem !important;
+}

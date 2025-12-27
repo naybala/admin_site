@@ -1,0 +1,23 @@
+export default {
+  userSubScriptions: {
+    userSubScriptions: "UserSubScriptions",
+    userSubScriptionOrders: "UserSubScription Orders",
+    title: "User SubScriptions Management",
+    orderType: "Order Type",
+    userType: "User Type",
+    selectOrderType: "Select Order Type",
+    selectUserType: "Select User Type",
+    name: "Name",
+    description: "Description",
+    actions: "Actions",
+    add: "Add UserSubScription",
+    edit: "Edit UserSubScription",
+    view: "View UserSubScription",
+    confirmDelete: `Are you sure you want to delete this userSubScriptions?`,
+    created: "userSubScriptions created successfully!",
+    updated: "userSubScriptions updated successfully!",
+    deleted: "userSubScriptions deleted successfully!",
+    notDeleted: "userSubScriptions deletion was cancelled",
+    nameRequired: "Name is required",
+  },
+};
