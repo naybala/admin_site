@@ -1,0 +1,20 @@
+export default {
+  roles: {
+    roles: "Roles List",
+    title: "Roles List",
+    list: "Roles List",
+    add: "Add Role",
+    edit: "Edit Role",
+    view: "View Role",
+    delete: "Delete Role",
+    name: "Name",
+    description: "Description",
+    actions: "Actions",
+    confirmDelete: "Are you sure you want to delete this role?",
+    created: "Item created successfully!",
+    updated: "Item updated successfully!",
+    deleted: "Item deleted successfully!",
+    notDeleted: "Item deletion was cancelled",
+    nameRequired: "Name is required",
+  },
+};

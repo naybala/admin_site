@@ -8,6 +8,8 @@ import { usePermissionStore } from "@stores/permission";
 import { PermissionsResponse } from "@/types";
 import { apiRequest } from "@/composables/common/useApi";
 import { associationRoutes } from "./associationRoutes";
+import { roleRoutes } from "./roleRoutes";
+import { userRoutes } from "./userRoutes";
 
 // Combine all routes
 const routes = [
@@ -18,6 +20,8 @@ const routes = [
   ...dashboardRoute,
   ...authRoutes,
   ...associationRoutes,
+  ...roleRoutes,
+  ...userRoutes,
 ];
 
 const router = createRouter({

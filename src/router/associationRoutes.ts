@@ -37,7 +37,7 @@ export const associationRoutes = [
     },
   },
   {
-    path: "/association/view/:id",
+    path: "/associations/view/:id",
     name: "association-view",
     component: AssociationFormView,
     props: true,

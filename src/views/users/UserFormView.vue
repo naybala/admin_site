@@ -23,9 +23,7 @@ const {
   error,
   loading,
   saving,
-  countries,
   roles,
-  userTypes,
   getAgentRole,
   currentUserType,
 } = useUserForm();
@@ -85,20 +83,6 @@ useServerError(error);
             :readonly="isShowMode"
           />
 
-          <!-- Country -->
-          <SelectItem
-            id="phoneNumberPrefixRequired"
-            v-model="form.phoneNumberPrefix"
-            :label="t('users.country')"
-            :options="countries"
-            :placeholder="t('users.selectCountry')"
-            :error="validationErrors.phoneNumberPrefixRequired"
-            optionLabel="code"
-            optionValue="code"
-            :showFlag="true"
-            :readonly="isShowMode"
-          />
-
           <!-- Role -->
           <SelectItem
             id="roleIdRequired"
@@ -111,20 +95,6 @@ useServerError(error);
             optionValue="id"
             :showFlag="false"
             :readonly="isReadOnlyRole"
-          />
-
-          <!-- User Type -->
-          <SelectItem
-            id="userTypeRequired"
-            v-model="form.userType"
-            :label="t('users.userType')"
-            :options="userTypes"
-            :placeholder="t('users.selectUserType')"
-            :error="validationErrors.userTypeRequired"
-            :readonly="isReadOnly"
-            :showClear="true"
-            optionLabel="name"
-            optionValue="id"
           />
 
           <!-- Email -->

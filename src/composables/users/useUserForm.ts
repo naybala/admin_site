@@ -31,7 +31,7 @@ export function useUserForm() {
   const itemId = route.params.id ?? null;
   const isEditMode = ref(route.name === "user-edit");
   const isShowMode = ref(route.name === "user-view");
-  const indexRouteName = ref("normal-view");
+  const indexRouteName = ref("users");
   const currentUserType = ref<any>("");
   const getAgentRole = ref<any>("");
 
@@ -146,14 +146,7 @@ export function useUserForm() {
         showSuccess(t("common.success"), t("users.created"));
       }
 
-      if (
-        currentUserType.value == "Association" ||
-        currentUserType.value == "Agency"
-      ) {
-        router.push({ name: "my-association-members" });
-      } else {
-        router.push({ name: indexRouteName.value });
-      }
+      router.push({ name: indexRouteName.value });
     } catch (err: any) {
       console.error("Save failed:", err);
       showError(

@@ -6,3 +6,9 @@ export * from "./auth";
 
 //Permissions Types
 export * from "./permissions";
+
+//Users Types
+export * from "./users";
+
+//Roles Types
+export * from "./roles";

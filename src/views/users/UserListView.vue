@@ -16,13 +16,11 @@ const {
   userTypes,
   countries,
   ownLicenses,
-  associations,
   loading,
   roles,
   searchRole,
   searchTerm,
   serverSideEdit,
-  searchAssociation,
   page,
   limit,
   total,
@@ -130,19 +128,6 @@ const tableActions = computed(() => [
           optionLabel="name"
           optionValue="id"
           :showFlag="false"
-          :showClear="true"
-        />
-
-        <FilterSelect
-          id="association"
-          v-model="searchAssociation"
-          :label="t('users.association')"
-          :options="associations"
-          :placeholder="t('users.selectAssociation')"
-          optionLabel="name"
-          optionValue="id"
-          :showFlag="true"
-          imgKey="logo"
           :showClear="true"
         />
 
