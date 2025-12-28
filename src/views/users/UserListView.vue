@@ -48,10 +48,6 @@ const showPermission = computed(() =>
   permissionStore.hasPermission("users.show")
 );
 
-const upgradePermission = computed(() =>
-  permissionStore.hasPermission("users.upgrade")
-);
-
 const overAllEditPermission = computed(
   () => permissionStore.hasPermission("users.edit") && serverSideEdit.value
 );
@@ -71,18 +67,7 @@ const tableColumns = [
   { label: "Phone Number", field: "phoneNumber" },
 ];
 
-const openModal = (item: any) => {
-  console.log(`Upgrading User name: ${item.username}`);
-};
-
 const tableActions = computed(() => [
-  {
-    icon: "pi pi-eject",
-    permission: upgradePermission.value,
-    handler: (item: any) => openModal(item),
-    tooltip: "Upgrade User",
-    class: "p-button-text p-button-warning mr-2",
-  },
   {
     icon: "pi pi-eye",
     permission: showPermission.value,
@@ -166,7 +151,7 @@ const tableActions = computed(() => [
               :countries="countries"
               :ownLicenses="ownLicenses"
               :isHeaderSticky="false"
-              :isModal="true"
+              :isModal="false"
             />
 
             <!-- Pagination -->
