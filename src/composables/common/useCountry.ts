@@ -9,7 +9,7 @@ export function useCountry() {
     loading.value = true;
     error.value = null;
     try {
-      const response: any = await apiRequest("api/v1/web/countries/prepare", {
+      const response: any = await apiRequest("/countries/prepare", {
         method: "GET",
       });
       countryList.value = response?.data || [];

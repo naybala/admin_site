@@ -15,9 +15,7 @@ export function useDashboardData() {
   const fetchDashboardStats = async (getMyData = false) => {
     loading.value = true;
     try {
-      const url = getMyData
-        ? "api/v1/web/dashboard/get-my-data"
-        : "api/v1/web/dashboard/get-data";
+      const url = getMyData ? "/dashboard/get-my-data" : "/dashboard/get-data";
 
       const response: any = await apiRequest(url, {
         method: "GET",

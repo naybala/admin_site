@@ -12,7 +12,7 @@ export default function useOtp() {
 
   const otpRequest = async (data: any) => {
     try {
-      const response: any = await apiRequest<any>("api/v1/web/auth/send-otp", {
+      const response: any = await apiRequest<any>("/auth/send-otp", {
         method: "POST",
         body: JSON.stringify(data),
       });
@@ -27,13 +27,10 @@ export default function useOtp() {
 
   const login = async (data: any) => {
     try {
-      const responseData: any = await apiRequest<any>(
-        "api/v1/web/auth/phone-no-login",
-        {
-          method: "POST",
-          body: JSON.stringify(data),
-        }
-      );
+      const responseData: any = await apiRequest<any>("/auth/phone-no-login", {
+        method: "POST",
+        body: JSON.stringify(data),
+      });
       const userData = responseData.data;
       permissionStore.clearPermissions();
       permissionStore.setPermissions(userData?.user?.permissions);

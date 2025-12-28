@@ -183,7 +183,7 @@ async function onImageSelected(e: Event) {
   };
 
   const presignedResponse = await apiRequest<PresignedResponse>(
-    "api/v1/web/get-presigned-urls",
+    "/get-presigned-urls",
     {
       method: "POST",
       body: JSON.stringify(requestBody),

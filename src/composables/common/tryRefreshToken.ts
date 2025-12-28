@@ -6,7 +6,7 @@ export async function tryRefreshToken(): Promise<boolean> {
 
   try {
     const response = await fetch(
-      `${import.meta.env.VITE_BASE_URL}/api/v1/web/auth/refresh-token`,
+      `${import.meta.env.VITE_BASE_URL}//auth/refresh-token`,
       {
         method: "POST",
         headers: {

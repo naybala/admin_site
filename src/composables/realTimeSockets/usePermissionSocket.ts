@@ -18,7 +18,7 @@ export function usePermissionSocket() {
 
     try {
       const res: any = await apiRequest<PermissionsResponse>(
-        `api/v1/web/roles/${authStore.userRole}`,
+        `/roles/${authStore.userRole}`,
         { method: "GET" }
       );
 

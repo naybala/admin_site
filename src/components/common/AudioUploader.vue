@@ -89,7 +89,7 @@ const onFileSelected = async (e: Event) => {
 
     // Step 1: Get pre-signed URL
     const presignedRes: any = await apiRequest(
-      "api/v1/web/get-presigned-urls/get-single-url",
+      "/get-presigned-urls/get-single-url",
       {
         method: "POST",
         body: JSON.stringify({

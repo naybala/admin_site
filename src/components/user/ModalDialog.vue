@@ -270,10 +270,10 @@ watch(
       try {
         const [planRes, companyRes, associationRes] = await Promise.all([
           apiRequest<any>(
-            `api/v1/web/plans/get-by-country-and-usertype/${country}/${userType}`
+            `/plans/get-by-country-and-usertype/${country}/${userType}`
           ),
-          apiRequest<any>("api/v1/web/user-subscriptions/prepare-company"),
-          apiRequest<any>("api/v1/web/user-subscriptions/prepare-association"),
+          apiRequest<any>("/user-subscriptions/prepare-company"),
+          apiRequest<any>("/user-subscriptions/prepare-association"),
         ]);
 
         apiData.plans = planRes?.data ?? [];
@@ -306,7 +306,7 @@ async function onSave() {
   form.associationMemberCode = form.memberCode;
   try {
     const response = await apiRequest<any>(
-      `api/v1/web/user-subscriptions/update-user-type`,
+      `/user-subscriptions/update-user-type`,
       {
         method: "PUT",
         body: JSON.stringify(form),

@@ -20,13 +20,10 @@ export default function useAuthData() {
     success.value = false;
 
     try {
-      const responseData = await apiRequest<AuthResponse>(
-        "api/v1/web/auth/login",
-        {
-          method: "POST",
-          body: JSON.stringify(data),
-        }
-      );
+      const responseData = await apiRequest<AuthResponse>("/auth/login", {
+        method: "POST",
+        body: JSON.stringify(data),
+      });
 
       const userData = responseData.data;
       permissionStore.clearPermissions();
@@ -52,7 +49,7 @@ export default function useAuthData() {
 
   const callToLogoutApi = async () => {
     try {
-      await apiRequest<any>("api/v1/web/auth/logout", {
+      await apiRequest<any>("/auth/logout", {
         method: "POST",
       });
       sessionStorage.removeItem("authData");
@@ -68,7 +65,7 @@ export default function useAuthData() {
 
   const otpRequest = async (data: any) => {
     try {
-      await apiRequest<any>("api/v1/web/auth/send-otp", {
+      await apiRequest<any>("/auth/send-otp", {
         method: "POST",
         body: JSON.stringify(data),
       });

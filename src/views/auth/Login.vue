@@ -125,7 +125,7 @@ const handleLogin = async () => {
     const response = await fetchAuthData(credentials);
 
     if (success.value && response?.data?.token && response?.data?.user) {
-      showSuccess(`Welcome From BAYON APP!`, "Login successful.", 900);
+      showSuccess(`Welcome From LM HOSTEL APP!`, "Login successful.", 900);
 
       //  Trigger expand animation
       isLoginSuccessful.value = true;

@@ -10,7 +10,6 @@ import Toast from "primevue/toast";
 import { usePermissionSocket } from "./composables/realTimeSockets/usePermissionSocket";
 import { usePermissionStore } from "./stores/permission";
 import { useCountry } from "./composables/common/useCountry";
-import { useUserLocation } from "./composables/common/useUserLocation";
 
 const route = useRoute();
 const router = useRouter();
@@ -21,7 +20,6 @@ const themeStore = useThemeStore();
 usePermissionSocket();
 const permissionStore = usePermissionStore();
 const { countryList, fetchCountry } = useCountry();
-const { autoCountryCode, fetchUserLocation } = useUserLocation();
 
 watch(
   () => permissionStore.permissions,
@@ -54,7 +52,7 @@ const showLayout = computed(() => {
   return !noLayoutRoutes.includes(route.path);
 });
 onMounted(async () => {
-  await Promise.all([fetchCountry(), fetchUserLocation()]);
+  await Promise.all([fetchCountry()]);
   window.addEventListener("resize", () => {
     if (window.innerWidth >= 768) {
       isMobileSidebarVisible.value = false;
@@ -69,7 +67,6 @@ onMounted(async () => {
   });
 });
 provide("countryList", countryList);
-provide("autoCountryCode", autoCountryCode);
 
 function handleResize() {
   if (window.innerWidth >= 768) {

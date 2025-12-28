@@ -71,7 +71,7 @@
 .loading-two::before {
   content: "";
   position: absolute;
-  left: 97px;
+  left: 119px;
   bottom: 19px;
   width: 35px;
   height: 35px;
@@ -184,7 +184,7 @@ const pattern: string = import.meta.env.VITE_LOADING_ANIMATION;
   >
     <div role="status">
       <div class="loading-one">
-        <p class="text-center p-7 text-sm">BAYON</p>
+        <p class="text-center p-7 text-sm">Loading</p>
       </div>
     </div>
   </div>
@@ -196,7 +196,7 @@ const pattern: string = import.meta.env.VITE_LOADING_ANIMATION;
     class="grid h-80 place-items-center"
   >
     <div role="status">
-      <span class="loading-two">BAY &nbsp; N APP</span>
+      <span class="loading-two">LM H &nbsp; STEL</span>
     </div>
   </div>
 
@@ -207,7 +207,7 @@ const pattern: string = import.meta.env.VITE_LOADING_ANIMATION;
     class="grid h-80 place-items-center align-middle"
   >
     <div role="status">
-      <div class="loading-three">BAYON APP</div>
+      <div class="loading-three">LM HOSTEL</div>
     </div>
   </div>
 
@@ -218,7 +218,7 @@ const pattern: string = import.meta.env.VITE_LOADING_ANIMATION;
     class="grid h-80 place-items-center align-middle"
   >
     <div class="loading-four-text-wrapper">
-      <p class="text">BAYON APP</p>
+      <p class="text">LM HOSTEL</p>
       <div class="loading-four-invertbox"></div>
     </div>
   </div>

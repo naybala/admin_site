@@ -24,7 +24,7 @@ export function useAuthUserSocket() {
 
     loading.value = true;
     try {
-      const responseData = await apiRequest<any>("api/v1/web/auth/user-info", {
+      const responseData = await apiRequest<any>("/auth/user-info", {
         method: "POST",
         body: JSON.stringify(data),
       });

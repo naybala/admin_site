@@ -8,7 +8,7 @@ export async function apiRequest<T>(
 ): Promise<T> {
   const authStore = useAuthStore();
   const token = authStore.token;
-  const fullUrl = `${import.meta.env.VITE_BASE_URL}/${api}`;
+  const fullUrl = `${import.meta.env.VITE_BASE_URL}${api}`;
 
   const headers: HeadersInit = {
     "Content-Type": "application/json",
@@ -19,7 +19,7 @@ export async function apiRequest<T>(
   try {
     const response = await fetch(fullUrl, {
       ...options,
-      credentials:'include',
+      credentials: "include",
       headers,
     });
     if (response.status === 401 && !retrying) {
