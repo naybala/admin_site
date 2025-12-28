@@ -1,7 +1,7 @@
 // useCrud.ts
-import { ref } from "vue";
+import { ref, computed } from "vue";
 import type { Ref } from "vue";
-import type { CrudOptions } from "@customTypes/crudType";
+import type { CrudOptions } from "@customTypes/index";
 import { apiRequest } from "./useApi";
 import { handleFastLoading } from "@/utils/useFastLoading";
 
@@ -164,6 +164,21 @@ export function useCrud<T extends { id?: string | number }>(
     throw e;
   };
 
+  const offset = computed(() => (page.value - 1) * limit.value);
+
+  const handlePageChange = async (
+    event: any,
+    fetchCallback?: (page: number, limit: number) => Promise<void>
+  ) => {
+    const newPage = event.page + 1;
+    const newLimit = event.rows;
+    if (fetchCallback) {
+      await fetchCallback(newPage, newLimit);
+    } else {
+      await fetchAll({ page: newPage, limit: newLimit });
+    }
+  };
+
   return {
     items,
     loading,
@@ -171,6 +186,7 @@ export function useCrud<T extends { id?: string | number }>(
     selectedItem,
     page,
     limit,
+    offset,
     total,
     fetchAll,
     fetchOne,
@@ -179,5 +195,6 @@ export function useCrud<T extends { id?: string | number }>(
     deleteItem,
     errorReval,
     customizeApi,
+    handlePageChange,
   };
 }

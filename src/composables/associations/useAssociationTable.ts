@@ -16,10 +16,20 @@ export function useAssociationTable() {
 
   const searchTerm = ref("");
 
-  const { items, loading, error, page, limit, total, fetchAll, deleteItem } =
-    useCrud<AssociationIndex>({
-      apiPath: ASSOCIATION_INDEX_API_PATHS.Associations,
-    });
+  const {
+    items,
+    loading,
+    error,
+    page,
+    limit,
+    offset,
+    total,
+    fetchAll,
+    deleteItem,
+    handlePageChange,
+  } = useCrud<AssociationIndex>({
+    apiPath: ASSOCIATION_INDEX_API_PATHS.Associations,
+  });
 
   const fetchData = async (newPage?: number, newLimit?: number) => {
     loading.value = true;
@@ -102,8 +112,10 @@ export function useAssociationTable() {
     error,
     page,
     limit,
+    offset,
     total,
     fetchData,
+    handlePageChange,
     openNewForm,
     editItem,
     viewItem,

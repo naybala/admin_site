@@ -3,7 +3,7 @@ import { onMounted, computed } from "vue";
 import InputText from "primevue/inputtext";
 import Button from "primevue/button";
 import Paginator from "primevue/paginator";
-import BaseTable from "@/components/common/BaseTable.vue";
+import BaseTable, { type Column } from "@/components/common/BaseTable.vue";
 import { useAssociationTable } from "@composables/associations/useAssociationTable";
 import { usePermissionStore } from "@/stores/permission";
 import Loader from "@/components/common/Loader.vue";
@@ -15,16 +15,16 @@ const {
   searchTerm,
   page,
   limit,
+  offset,
   total,
   fetchData,
+  handlePageChange,
   openNewForm,
   editItem,
   viewItem,
   confirmDeleteItem,
 } = useAssociationTable();
 
-const first = computed(() => (page.value - 1) * limit.value);
-const onPageChange = (event: any) => fetchData(event.page + 1, event.rows);
 const { t } = useI18n();
 
 onMounted(() => {
@@ -45,8 +45,8 @@ const deletePermission = computed(() =>
   permissionStore.hasPermission("associations.delete")
 );
 
-const tableColumns = [
-  { label: "Logo", field: "logo", isImage: true },
+const tableColumns: Column[] = [
+  { label: "Logo", field: "logo", type: "image" },
   { label: "Name", field: "name" },
   { label: "Short Name", field: "shortName" },
   { label: "Country", field: "countryName" },
@@ -120,11 +120,11 @@ const tableActions = [
               </p>
               <Paginator
                 :rows="limit"
-                :first="first"
+                :first="offset"
                 :totalRecords="total"
                 :page="page - 1"
                 :rowsPerPageOptions="[10, 20, 50, 100]"
-                @page="onPageChange"
+                @page="(e) => handlePageChange(e, fetchData)"
                 class="w-full sm:w-auto"
               />
             </div>

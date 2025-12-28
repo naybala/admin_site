@@ -12,3 +12,6 @@ export * from "./users";
 
 //Roles Types
 export * from "./roles";
+
+//CRUD Types
+export * from "./crudType";

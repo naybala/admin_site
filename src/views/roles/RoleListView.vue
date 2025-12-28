@@ -15,15 +15,16 @@ const {
   searchTerm,
   page,
   limit,
+  offset,
   total,
   fetchData,
+  handlePageChange,
   openNewRoleForm,
   editRole,
   viewRole,
   confirmDeleteRole,
 } = useRoleTable();
-const first = computed(() => (page.value - 1) * limit.value);
-const onPageChange = (event: any) => fetchData(event.page + 1, event.rows);
+
 const { t } = useI18n();
 onMounted(() => {
   fetchData();
@@ -45,7 +46,9 @@ const deleteRolePermission = computed(() =>
 );
 
 // Table columns and actions
-const tableColumns = [
+import type { Column } from "@/components/common/BaseTable.vue";
+
+const tableColumns: Column[] = [
   { label: "Name", field: "name" },
   { label: "Description", field: "description" },
 ];
@@ -122,11 +125,11 @@ const tableActions = [
               </p>
               <Paginator
                 :rows="limit"
-                :first="first"
+                :first="offset"
                 :totalRecords="total"
                 :page="page - 1"
                 :rowsPerPageOptions="[10, 20, 50, 100]"
-                @page="onPageChange"
+                @page="(e) => handlePageChange(e, fetchData)"
                 class="w-full sm:w-auto"
               />
             </div>

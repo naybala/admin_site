@@ -37,85 +37,88 @@
           <td
             v-for="col in columns"
             :key="col.field"
-            :class="tdStyleClass || 'border px-4 py-2 whitespace-nowrap'"
+            :class="[
+              tdStyleClass || 'border px-4 py-2 whitespace-nowrap',
+              col.class || '',
+            ]"
           >
-            <template v-if="col.isImage">
-              <div @click.stop class="cursor-pointer">
-                <Image
-                  :src="getImageUrl(item[col.field])"
-                  alt="Image"
-                  width="50"
-                  height="50"
-                  preview
-                />
-              </div>
-            </template>
+            <!-- Scoped Slot for custom rendering -->
+            <slot :name="'body-' + col.field" :item="item" :column="col">
+              <!-- Built-in Renderers -->
+              <template v-if="col.type === 'image' || col.isImage">
+                <div @click.stop class="cursor-pointer">
+                  <Image
+                    :src="getImageUrl(item[col.field])"
+                    alt="Image"
+                    width="50"
+                    height="50"
+                    preview
+                  />
+                </div>
+              </template>
 
-            <template v-else>
-              <!-- Status Badge -->
-              <span v-if="col.field === 'status'">
+              <template
+                v-else-if="
+                  col.type === 'boolean' ||
+                  col.field === 'status' ||
+                  col.field === 'is_private'
+                "
+              >
                 <span
                   :class="{
                     'bg-green-600 text-white px-3 py-2 rounded-xl':
-                      item[col.field] === true || item[col.field] === 'true',
+                      item[col.field] === true ||
+                      item[col.field] === 'true' ||
+                      (col.field === 'is_private' &&
+                        (item[col.field] === false ||
+                          item[col.field] === 'false')),
                     'bg-red-600 text-white px-3 py-2 rounded-xl':
-                      item[col.field] === false || item[col.field] === 'false',
+                      item[col.field] === false ||
+                      item[col.field] === 'false' ||
+                      (col.field === 'is_private' &&
+                        (item[col.field] === true ||
+                          item[col.field] === 'true')),
                   }"
                 >
-                  {{
-                    item[col.field] === true || item[col.field] === "true"
-                      ? "Active"
-                      : "Inactive"
-                  }}
+                  {{ formatBoolean(item[col.field], col.field) }}
                 </span>
-              </span>
+              </template>
 
-              <span v-else-if="col.field == 'location'">
-                <p style="text-align: left !important">
-                  {{ item[col.field] }}
-                </p>
-              </span>
-
-              <span v-else-if="col.field === 'is_private'">
-                <span
-                  :class="{
-                    'bg-green-600 text-white px-3 py-2 rounded-xl':
-                      item[col.field] === false || item[col.field] === 'false',
-                    'bg-red-600 text-white px-3 py-2 rounded-xl':
-                      item[col.field] === true || item[col.field] === 'true',
-                  }"
+              <template
+                v-else-if="col.type === 'telegram' || col.isDirectToTelegram"
+              >
+                <a
+                  :href="`https://t.me/${item[col.field]}`"
+                  target="_blank"
+                  class="text-blue-500 hover:underline"
                 >
-                  {{
-                    item[col.field] === true || item[col.field] === "true"
-                      ? "Private"
-                      : "Public"
-                  }}
-                </span>
-              </span>
-
-              <span v-else-if="col.isCopy == false">
-                <span class="select-none">
-                  {{ item[col.field] }}
-                </span>
-              </span>
-
-              <span v-else-if="col.isDirectToTelegram">
-                <a :href="`https://t.me/${item[col.field]}`" target="_blank">
                   {{ item[col.field] }}
                 </a>
-              </span>
+              </template>
 
-              <span v-else-if="col.isDirectToPhoneNumber">
-                <a :href="`tel:${item[col.field]}`" target="_blank">
+              <template
+                v-else-if="col.type === 'tel' || col.isDirectToPhoneNumber"
+              >
+                <a
+                  :href="`tel:${item[col.field]}`"
+                  target="_blank"
+                  class="text-blue-500 hover:underline"
+                >
                   {{ item[col.field] }}
                 </a>
-              </span>
+              </template>
+
+              <template v-else-if="col.type === 'copy' || col.isCopy === false">
+                <span :class="{ 'select-none': col.isCopy === false }">
+                  {{ item[col.field] }}
+                </span>
+              </template>
 
               <!-- Default Field -->
-              <span v-else>
+              <template v-else>
                 {{ item[col.field] }}
-              </span>
-            </template>
+              </template>
+            </slot>
           </td>
 
           <td
@@ -137,33 +140,33 @@
                   v-else
                   v-if="action.permission"
                   :icon="action.icon"
-                  class="p-button-rounded p-button-text"
+                  :class="action.class || 'p-button-rounded p-button-text'"
                   v-tooltip.top="action.tooltip"
                   @click.stop="(e) => handleAction(item, action, e)"
                 />
               </template>
             </div>
           </td>
-
-          <!-- Modal (optional per item) -->
-          <div v-if="isModal">
-            <ModalDialog
-              v-if="modalVisibilityMap[item.id]"
-              :visible="modalVisibilityMap[item.id]"
-              :item="selectedItemMap[item.id]"
-              :dialogTitle="
-                'Upgrade User: ' + selectedItemMap[item.id]?.username
-              "
-              @update:visible="(val) => (modalVisibilityMap[item.id] = val)"
-              @save="(data:any) => handleSave(item.id, data)"
-              :userTypes="userTypes ?? []"
-              :countries="countries ?? []"
-              :ownLicenses="ownLicenses ?? []"
-            />
-          </div>
         </tr>
       </tbody>
     </table>
+
+    <!-- Modal (optional per item) -->
+    <div v-if="isModal">
+      <template v-for="item in items" :key="'modal-' + item.id">
+        <ModalDialog
+          v-if="modalVisibilityMap[item.id]"
+          :visible="modalVisibilityMap[item.id]"
+          :item="selectedItemMap[item.id]"
+          :dialogTitle="'Upgrade User: ' + selectedItemMap[item.id]?.username"
+          @update:visible="(val) => (modalVisibilityMap[item.id] = val)"
+          @save="(data:any) => handleSave(item.id, data)"
+          :userTypes="userTypes ?? []"
+          :countries="countries ?? []"
+          :ownLicenses="ownLicenses ?? []"
+        />
+      </template>
+    </div>
   </div>
 </template>
 
@@ -174,18 +177,22 @@ import ModalDialog from "../user/ModalDialog.vue";
 import { useRouter } from "vue-router";
 import { Image } from "primevue";
 
+export interface Column {
+  label: string;
+  field: string;
+  type?: "image" | "boolean" | "telegram" | "tel" | "copy" | "text";
+  isImage?: boolean; // Deprecated: use type
+  isCopy?: boolean; // Deprecated: use type
+  isDirectToTelegram?: boolean; // Deprecated: use type
+  isDirectToPhoneNumber?: boolean; // Deprecated: use type
+  isHeaderStart?: boolean;
+  class?: string;
+}
+
 const router = useRouter();
 
 const props = defineProps<{
-  columns: Array<{
-    label: string;
-    field: string;
-    isImage?: boolean;
-    isCopy?: boolean;
-    isDirectToTelegram?: boolean;
-    isDirectToPhoneNumber?: boolean;
-    isHeaderStart?: boolean;
-  }>;
+  columns: Column[];
   items: Record<string, any>[];
   isHeaderSticky?: boolean;
   isFixedHeight?: boolean;
@@ -243,6 +250,14 @@ const getImageUrl = (url: string): string => {
   }
 
   return url;
+};
+
+const formatBoolean = (value: any, field: string) => {
+  const isTrue = value === true || value === "true";
+  if (field === "is_private") {
+    return isTrue ? "Private" : "Public";
+  }
+  return isTrue ? "Active" : "Inactive";
 };
 
 const handleSave = (id: string, updatedData: any) => {

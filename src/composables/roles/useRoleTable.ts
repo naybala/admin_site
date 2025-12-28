@@ -22,9 +22,11 @@ export function useRoleTable() {
     error,
     page,
     limit,
+    offset,
     total,
     fetchAll,
     deleteItem,
+    handlePageChange,
   } = useCrud<RoleIndex>({
     apiPath: ROLE_INDEX_API_PATHS.ROLES,
   });
@@ -112,8 +114,10 @@ export function useRoleTable() {
     error,
     page,
     limit,
+    offset,
     total,
     fetchData,
+    handlePageChange,
     openNewRoleForm,
     viewRole,
     editRole,

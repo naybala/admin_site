@@ -31,10 +31,20 @@ export function useUserTable() {
   const authStore = useAuthStore();
   const { userData, fetchUserData } = useAuthUserSocket();
 
-  const { items, loading, error, page, limit, total, fetchAll, deleteItem } =
-    useCrud<UserIndex>({
-      apiPath: INDEX_API_PATHS.USERS,
-    });
+  const {
+    items,
+    loading,
+    error,
+    page,
+    limit,
+    offset,
+    total,
+    fetchAll,
+    deleteItem,
+    handlePageChange,
+  } = useCrud<UserIndex>({
+    apiPath: INDEX_API_PATHS.USERS,
+  });
 
   // Debounced fetch
   const fetchAllWithParams = async (params: any) => {
@@ -180,11 +190,13 @@ export function useUserTable() {
     searchTerm,
     searchPrefixPhoneNumber,
     searchAssociation,
+    offset,
     page,
     limit,
     total,
     serverSideEdit,
     fetchData,
+    handlePageChange,
     openNewForm,
     editItem,
     submitFilters,

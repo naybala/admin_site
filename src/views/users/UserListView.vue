@@ -23,8 +23,10 @@ const {
   serverSideEdit,
   page,
   limit,
+  offset,
   total,
   fetchData,
+  handlePageChange,
   openNewForm,
   editItem,
   viewItem,
@@ -33,10 +35,6 @@ const {
 } = useUserTable();
 
 const { t } = useI18n();
-const first = computed(() => (page.value - 1) * limit.value);
-const onPageChange = (event: any) => {
-  fetchData(event.page + 1, event.rows);
-};
 
 // Permissions
 const permissionStore = usePermissionStore();
@@ -57,7 +55,9 @@ const overAllDeletePermission = computed(
 );
 
 // Table
-const tableColumns = [
+import type { Column } from "@/components/common/BaseTable.vue";
+
+const tableColumns: Column[] = [
   { label: "Id", field: "id" },
   { label: "Register Date", field: "createdAt" },
   { label: "Username", field: "username" },
@@ -163,11 +163,11 @@ const tableActions = computed(() => [
               </p>
               <Paginator
                 :rows="limit"
-                :first="first"
+                :first="offset"
                 :totalRecords="total"
                 :page="page - 1"
                 :rowsPerPageOptions="[10, 20, 50, 100]"
-                @page="onPageChange"
+                @page="(e) => handlePageChange(e, fetchData)"
                 class="w-full sm:w-auto"
               />
             </div>
