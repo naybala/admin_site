@@ -1,5 +1,6 @@
 import type { User } from "@customTypes/index";
 import { nextTick } from "vue";
+import { z } from "zod";
 
 export function validateUserForm(
   form: User,
@@ -7,21 +8,40 @@ export function validateUserForm(
 ): Record<string, string> {
   const errors: Record<string, string> = {};
 
-  const requiredFields: { field: keyof User; errorKey: string }[] = [
-    { field: "username", errorKey: "usernameRequired" },
-    { field: "email", errorKey: "emailRequired" },
-    { field: "phoneNumberPrefix", errorKey: "phoneNumberPrefixRequired" },
-    { field: "roleId", errorKey: "roleIdRequired" },
-    { field: "phoneNumber", errorKey: "phoneNumberRequired" },
-    { field: "userType", errorKey: "userTypeRequired" },
-  ];
+  const userSchema = z.object({
+    username: z.string().trim().min(1, { message: "usernameRequired" }),
+    email: z
+      .string()
+      .trim()
+      .email({ message: "emailRequired" })
+      .or(z.literal(""))
+      .or(z.null()),
+    phoneNumberPrefix: z
+      .string()
+      .trim()
+      .min(1, { message: "phoneNumberPrefixRequired" }),
+    roleId: z
+      .string()
+      .trim()
+      .min(1, { message: "roleIdRequired" })
+      .or(z.null()),
+    phoneNumber: z.string().trim().min(1, { message: "phoneNumberRequired" }),
+    userType: z
+      .string()
+      .trim()
+      .min(1, { message: "userTypeRequired" })
+      .or(z.null()),
+  });
 
-  for (const { field, errorKey } of requiredFields) {
-    const value = form[field];
-    if (typeof value === "string" && (!value || value.trim() === "")) {
+  const result = userSchema.safeParse(form);
+
+  if (!result.success) {
+    result.error.issues.forEach((issue) => {
+      const errorKey = issue.message;
       errors[errorKey] = t(`users.${errorKey}`);
-    }
+    });
   }
+
   scrollToFirstErrorField(errors);
 
   return errors;

@@ -1,5 +1,6 @@
 import type { Association } from "@customTypes/index";
 import { nextTick } from "vue";
+import { z } from "zod";
 
 export function validateAssociationForm(
   form: Association,
@@ -7,18 +8,21 @@ export function validateAssociationForm(
 ): Record<string, string> {
   const errors: Record<string, string> = {};
 
-  const requiredFields: { field: keyof Association; errorKey: string }[] = [
-    { field: "name", errorKey: "nameRequired" },
-    { field: "shortName", errorKey: "shortNameRequired" },
-    { field: "countryId", errorKey: "countryIdRequired" },
-  ];
+  const associationSchema = z.object({
+    name: z.string().trim().min(1, { message: "nameRequired" }),
+    shortName: z.string().trim().min(1, { message: "shortNameRequired" }),
+    countryId: z.string().trim().min(1, { message: "countryIdRequired" }),
+  });
 
-  for (const { field, errorKey } of requiredFields) {
-    const value = form[field];
-    if (typeof value === "string" && (!value || value.trim() === "")) {
+  const result = associationSchema.safeParse(form);
+
+  if (!result.success) {
+    result.error.issues.forEach((issue) => {
+      const errorKey = issue.message;
       errors[errorKey] = t(`associations.${errorKey}`);
-    }
+    });
   }
+
   scrollToFirstErrorField(errors);
 
   return errors;
