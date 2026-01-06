@@ -1,17 +1,18 @@
 export interface Association {
-  id?: string;
-  imageFiles: any;
+  id: string;
   name: string;
-  shortName: string;
   countryId: string;
   logo: any;
-  description: string;
+  description?: string;
+  country?: {
+    id: string;
+    name: string;
+  };
+  createdAt?: string;
+  __optimistic?: boolean;
 }
 
 export interface AssociationIndex {
-  id?: string;
-  name: string;
-  shortName: string;
-  countryId: string;
-  logo: any;
+  data: Association[];
+  total: number;
 }

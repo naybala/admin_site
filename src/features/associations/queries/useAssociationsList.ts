@@ -1,13 +1,14 @@
+import { computed, Ref } from "vue";
 import { useQuery } from "@tanstack/vue-query";
 import { associationsApi } from "../api/associations.api";
 import { associationKeys } from "./association.keys";
-import type { Ref } from "vue";
 
-export function useAssociationsList(
-  params: Ref<{ page: number; limit: number; search?: string }>
-) {
+export function useAssociationsList(params: Ref<Record<string, any>>) {
+  const queryKey = computed(() => associationKeys.list(params.value));
+
   return useQuery({
-    queryKey: associationKeys.list(params),
+    queryKey,
     queryFn: () => associationsApi.getList(params.value),
+    placeholderData: (previousData) => previousData,
   });
 }

@@ -51,7 +51,7 @@ export function useAssociationTable() {
     { label: "Logo", field: "logo", type: "image" },
     { label: "Name", field: "name" },
     { label: "Short Name", field: "shortName" },
-    { label: "Country", field: "countryName" },
+    { label: "Country", field: "country.name" },
   ];
 
   const openNewForm = () => router.push({ name: "association-new" });

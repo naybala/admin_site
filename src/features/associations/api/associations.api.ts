@@ -8,13 +8,10 @@ export const ASSOCIATION_API_PATHS = {
 };
 
 export const associationsApi = {
-  getList: (params: { page: number; limit: number; search?: string }) => {
+  getList: (params: any) => {
     const query = new URLSearchParams(params as any).toString();
     return apiRequest<{
-      data: {
-        data: AssociationIndex[];
-        total: number;
-      };
+      data: AssociationIndex;
     }>(`${ASSOCIATION_API_PATHS.Associations}?${query}`, {
       method: "GET",
     });
