@@ -13,7 +13,7 @@ export function useUserForm() {
   const router = useRouter();
   const route = useRoute();
   const { t } = useI18n();
-  const { showError, showSuccess } = useAppToast();
+  const { showError } = useAppToast();
   const { userData, fetchUserData } = useAuthUserSocket();
   const authStore = useAuthStore();
 

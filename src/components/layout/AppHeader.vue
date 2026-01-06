@@ -1,10 +1,9 @@
 <script setup lang="ts">
 import { ref } from "vue";
-import { useAuthStore } from "@stores/auth";
 import { useI18n } from "vue-i18n";
 import { useConfirm } from "primevue/useconfirm";
 import { useAppToast } from "@/composables/common/useAppToast";
-import useAuthData from "@/composables/auth/index";
+import { useAuthMutations } from "@/features/auth";
 import Button from "primevue/button";
 import "primeicons/primeicons.css";
 import DarkLight from "../common/DarkLight.vue";
@@ -12,11 +11,10 @@ import DarkLight from "../common/DarkLight.vue";
 const emit = defineEmits(["toggle-sidebar"]);
 const isChecked: any = ref(true);
 
-const authStore = useAuthStore();
 const { locale } = useI18n();
 const confirm = useConfirm();
 const { showSuccess } = useAppToast();
-const { callToLogoutApi } = useAuthData();
+const { logoutMutation } = useAuthMutations();
 
 function toggleSidebarAndAnimate() {
   isChecked.value = !isChecked.value;
@@ -36,9 +34,8 @@ const handleLogoutConfirm = () => {
     acceptLabel: "Confirm",
     acceptClass: "p-button-danger",
     accept: async () => {
-      await callToLogoutApi();
-      authStore.clearAuthData();
-      window.location.href = "/login"; // or use router if available
+      await logoutMutation.mutateAsync();
+      window.location.href = "/login";
     },
     reject: () => {
       showSuccess("Success", "Logout cancelled");

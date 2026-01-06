@@ -7,7 +7,6 @@ import Loader from "@/components/common/Loader.vue";
 import { useRoleTable } from "../hooks/useRoleTable";
 
 const {
-  t,
   searchTerm,
   items,
   total,

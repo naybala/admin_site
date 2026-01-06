@@ -9,7 +9,6 @@ import Loader from "@/components/common/Loader.vue";
 import { useUserTable } from "../hooks/useUserTable";
 
 const {
-  t,
   searchTerm,
   searchPrefixPhoneNumber,
   searchRole,

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed, onMounted, onBeforeUnmount, watch, provide } from "vue";
+import { ref, computed, onMounted, onBeforeUnmount, watch } from "vue";
 import { useRoute, useRouter } from "vue-router";
 
 import AppSidebar from "@components/layout/AppSidebar.vue";
@@ -9,7 +9,6 @@ import ConfirmDialog from "primevue/confirmdialog";
 import Toast from "primevue/toast";
 import { usePermissionSocket } from "./composables/realTimeSockets/usePermissionSocket";
 import { usePermissionStore } from "./stores/permission";
-import { useCountry } from "./composables/common/useCountry";
 
 const route = useRoute();
 const router = useRouter();
@@ -19,7 +18,6 @@ const isMobileSidebarVisible = ref(false); // Mobile: slide-in/out
 const themeStore = useThemeStore();
 usePermissionSocket();
 const permissionStore = usePermissionStore();
-const { countryList, fetchCountry } = useCountry();
 
 watch(
   () => permissionStore.permissions,
@@ -52,7 +50,6 @@ const showLayout = computed(() => {
   return !noLayoutRoutes.includes(route.path);
 });
 onMounted(async () => {
-  await Promise.all([fetchCountry()]);
   window.addEventListener("resize", () => {
     if (window.innerWidth >= 768) {
       isMobileSidebarVisible.value = false;
@@ -66,7 +63,6 @@ onMounted(async () => {
     }
   });
 });
-provide("countryList", countryList);
 
 function handleResize() {
   if (window.innerWidth >= 768) {

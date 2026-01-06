@@ -34,19 +34,22 @@
           >User Email Or Phone Number</label
         >
         <input
-          v-model="username"
+          v-model="form.username"
           type="text"
           placeholder="Username"
           required
           class="w-full mb-4 px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-brand-primary"
         />
+        <span v-if="validationErrors.username" class="text-red-500 text-sm">{{
+          validationErrors.username
+        }}</span>
         <label for="" class="text-sm text-balance text-gray-400 ms-1"
           >Password</label
         >
         <div class="relative">
           <input
-            @keyup.enter="handleLogin"
-            v-model="password"
+            @keyup.enter="handleLoginWithAnimation"
+            v-model="form.password"
             :type="showPassword ? 'text' : 'password'"
             placeholder="Password"
             required
@@ -62,9 +65,12 @@
             {{ showPassword ? "hide" : "show" }}
           </button>
         </div>
+        <span v-if="validationErrors.password" class="text-red-500 text-sm">{{
+          validationErrors.password
+        }}</span>
 
         <button
-          @click="handleLogin"
+          @click="handleLoginWithAnimation"
           :disabled="loading"
           class="w-full bg-brand-primary text-white py-2 rounded-md hover:bg-brand-primary-dark transition-colors duration-200 disabled:opacity-50"
         >
@@ -78,71 +84,33 @@
 
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
-import { useRouter, useRoute } from "vue-router";
-import useAuthData from "@composables/auth";
+import { useLogin } from "../hooks/useLogin";
 import { useAppToast } from "@composables/common/useAppToast";
-import logo from "../../assets/images/lm_hostel.png";
-import hotelManagementLogo from "../../assets/images/hotel_management.png";
+import logo from "@/assets/images/lm_hostel.png";
+import hotelManagementLogo from "@/assets/images/hotel_management.png";
 
-const username = ref("");
-const password = ref("");
+const { showSuccess } = useAppToast();
+const { form, validationErrors, handleLogin, loading } = useLogin();
 
 const isLoginSuccessful = ref(true);
-
-const router = useRouter();
-const route = useRoute();
-
 const showPassword = ref(false);
 
 function toggleShowPassword() {
   showPassword.value = !showPassword.value;
 }
 
-const { showSuccess, showError } = useAppToast();
-const { success, loading, error, fetchAuthData } = useAuthData();
-
 onMounted(() => {
-  //  Trigger reverse animation on component mount
   setTimeout(() => {
     isLoginSuccessful.value = false;
-  }, 600); // delay slightly to trigger CSS transition
+  }, 600);
 });
 
-const handleLogin = async () => {
-  if (!username.value || !password.value) {
-    error.value = "Please enter both email and password.";
-    return;
-  }
+const handleLoginWithAnimation = async () => {
+  const success = await handleLogin();
 
-  try {
-    loading.value = true;
-
-    const credentials = {
-      username: username.value,
-      password: password.value,
-    };
-
-    const response = await fetchAuthData(credentials);
-
-    if (success.value && response?.data?.token && response?.data?.user) {
-      showSuccess(`Welcome From LM HOSTEL APP!`, "Login successful.", 900);
-
-      //  Trigger expand animation
-      isLoginSuccessful.value = true;
-      // Wait for animation to finish before redirect
-      setTimeout(() => {
-        const redirectTo = (route.query.redirect as string) || "/dashboard";
-        router.push(redirectTo);
-      }, 900);
-    } else {
-      error.value = "Login failed. Please try again.";
-      showError("Login failed", error.value);
-    }
-  } catch (err) {
-    error.value = "An unexpected error occurred. Please try again.";
-    showError("Error", error.value);
-  } finally {
-    loading.value = false;
+  if (success !== false) {
+    showSuccess(`Welcome From LM HOSTEL APP!`, "Login successful.", 900);
+    isLoginSuccessful.value = true;
   }
 };
 </script>

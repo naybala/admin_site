@@ -24,6 +24,10 @@ export const useAuthStore = defineStore("auth", {
       this.roleId = null;
     },
 
+    clearAuth() {
+      this.clearAuthData();
+    },
+
     // Manual hydration trigger
     async ensureHydrated() {
       if (!this._hydrated) {

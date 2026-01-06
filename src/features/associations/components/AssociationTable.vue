@@ -7,7 +7,6 @@ import Loader from "@/components/common/Loader.vue";
 import { useAssociationTable } from "../hooks/useAssociationTable";
 
 const {
-  t,
   searchTerm,
   items,
   total,

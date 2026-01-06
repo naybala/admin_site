@@ -1,17 +1,15 @@
 import { useRouter } from "vue-router";
 import { useI18n } from "vue-i18n";
-import { useAuthStore } from "@/stores/auth";
 import { useConfirm } from "primevue/useconfirm";
 import { useAppToast } from "@/composables/common/useAppToast";
-import useAuthData from "@/composables/auth";
+import { useAuthMutations } from "@/features/auth";
 
 export function useSidebarActions() {
   const router = useRouter();
   const { locale, t } = useI18n();
-  const authStore = useAuthStore();
   const confirm = useConfirm();
   const { showSuccess } = useAppToast();
-  const { callToLogoutApi } = useAuthData();
+  const { logoutMutation } = useAuthMutations();
 
   const changeLocale = () => {
     locale.value = locale.value === "en" ? "mm" : "en";
@@ -26,8 +24,7 @@ export function useSidebarActions() {
       acceptLabel: t("common.confirm"),
       acceptClass: "p-button-danger",
       accept: async () => {
-        await callToLogoutApi();
-        authStore.clearAuthData();
+        await logoutMutation.mutateAsync();
         router.push("/login");
       },
       reject: () => {

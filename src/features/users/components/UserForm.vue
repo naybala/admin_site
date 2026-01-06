@@ -11,7 +11,6 @@ const {
   countries,
   userTypes,
   rolesOptions,
-  associationsOptions,
   validationErrors,
   handleSave,
   handleCancel,

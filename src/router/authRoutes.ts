@@ -1,13 +1,15 @@
-import UnAuthorized from "@/views/UnAuthorized.vue";
-import Login from "@views/auth/Login.vue";
+import { Login } from "@/features/auth";
+import UnAuthorized from "@/components/common/UnAuthorized.vue";
 
 export const authRoutes = [
   {
     path: "/login",
-    name: "Login",
+    name: "login",
     component: Login,
+    meta: {
+      requiresAuth: false,
+    },
   },
-
   {
     path: "/unauthorized",
     name: "unauthorized",
