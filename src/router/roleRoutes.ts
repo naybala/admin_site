@@ -1,5 +1,4 @@
-import RoleFormView from "@/views/roles/RoleFormView.vue";
-import RoleListView from "@/views/roles/RoleListView.vue";
+import { RoleForm, RoleTable } from "@/features/roles";
 
 const feature = "roles";
 
@@ -7,7 +6,7 @@ export const roleRoutes = [
   {
     path: "/roles",
     name: "roles",
-    component: RoleListView,
+    component: RoleTable,
     meta: {
       requiresAuth: true,
       permission: `${feature}.index`,
@@ -20,7 +19,7 @@ export const roleRoutes = [
   {
     path: "/roles/new",
     name: "role-new",
-    component: RoleFormView,
+    component: RoleForm,
     meta: {
       requiresAuth: true,
       permission: `${feature}.store`,
@@ -29,7 +28,7 @@ export const roleRoutes = [
   {
     path: "/roles/edit/:id",
     name: "role-edit",
-    component: RoleFormView,
+    component: RoleForm,
     props: true,
     meta: {
       requiresAuth: true,
@@ -39,7 +38,7 @@ export const roleRoutes = [
   {
     path: "/roles/view/:id",
     name: "role-view",
-    component: RoleFormView,
+    component: RoleForm,
     props: true,
     meta: {
       requiresAuth: true,

@@ -1,5 +1,4 @@
-import UserFormView from "@/views/users/UserFormView.vue";
-import UserListView from "@/views/users/UserListView.vue";
+import { UserForm, UserTable } from "@/features/users";
 
 const feature = "users";
 
@@ -7,20 +6,19 @@ export const userRoutes = [
   {
     path: "/users",
     name: "users",
-    component: UserListView,
+    component: UserTable,
     meta: {
       requiresAuth: true,
       permission: `${feature}.index`,
       sidebar: true,
       label: "sidebar.users",
-      icon: "pi pi-user-plus",
+      icon: "pi pi-users",
     },
   },
-
   {
     path: "/users/new",
     name: "user-new",
-    component: UserFormView,
+    component: UserForm,
     meta: {
       requiresAuth: true,
       permission: `${feature}.store`,
@@ -29,7 +27,7 @@ export const userRoutes = [
   {
     path: "/users/edit/:id",
     name: "user-edit",
-    component: UserFormView,
+    component: UserForm,
     props: true,
     meta: {
       requiresAuth: true,
@@ -39,7 +37,7 @@ export const userRoutes = [
   {
     path: "/users/view/:id",
     name: "user-view",
-    component: UserFormView,
+    component: UserForm,
     props: true,
     meta: {
       requiresAuth: true,
