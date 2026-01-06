@@ -8,11 +8,18 @@ export function validateAssociationForm(
 ): Record<string, string> {
   const errors: Record<string, string> = {};
 
-  const associationSchema = z.object({
-    name: z.string().trim().min(1, { message: "nameRequired" }),
-    shortName: z.string().trim().min(1, { message: "shortNameRequired" }),
-    countryId: z.string().trim().min(1, { message: "countryIdRequired" }),
-  });
+  const associationSchema = z
+    .object({
+      name: z.string().trim().min(1, { message: "nameRequired" }),
+      shortName: z.string().trim().min(1, { message: "shortNameRequired" }),
+      countryId: z.string().trim().min(1, { message: "countryIdRequired" }),
+      imageFiles: z.any().optional(),
+      logo: z.any().optional(),
+    })
+    .refine((data) => data.imageFiles || data.logo, {
+      message: "logoRequired",
+      path: ["logo"],
+    });
 
   const result = associationSchema.safeParse(form);
 

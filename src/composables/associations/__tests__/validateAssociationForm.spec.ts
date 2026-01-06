@@ -21,6 +21,7 @@ describe("validateAssociationForm", () => {
       nameRequired: "associations.nameRequired",
       shortNameRequired: "associations.shortNameRequired",
       countryIdRequired: "associations.countryIdRequired",
+      logoRequired: "associations.logoRequired",
     });
   });
 
@@ -30,7 +31,7 @@ describe("validateAssociationForm", () => {
       shortName: "TA",
       countryId: "1",
       imageFiles: null,
-      logo: "",
+      logo: "logo.png",
       description: "Description",
     };
 
@@ -55,6 +56,7 @@ describe("validateAssociationForm", () => {
       nameRequired: "associations.nameRequired",
       shortNameRequired: "associations.shortNameRequired",
       countryIdRequired: "associations.countryIdRequired",
+      logoRequired: "associations.logoRequired",
     });
   });
 });

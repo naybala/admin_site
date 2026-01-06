@@ -50,6 +50,7 @@ useServerError(error);
         <form @submit.prevent="save" v-else>
           <!-- Image Upload -->
           <SingleImageUploader
+            id="logo"
             v-model="form.imageFiles"
             :initialUrl="form.logo"
             @update:initialUrl="(val:any) => (form.logo = val)"
