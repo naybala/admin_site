@@ -1,4 +1,5 @@
 import { createApp } from "vue";
+import { VueQueryPlugin } from "@tanstack/vue-query";
 import App from "./App.vue";
 import PrimeVue from "primevue/config";
 import "primeicons/primeicons.css";
@@ -24,6 +25,7 @@ pinia.use(piniaPluginPersistedstate);
 
 app.use(pinia);
 app.use(router);
+app.use(VueQueryPlugin);
 app.use(PrimeVue, {
   unstyled: false,
   theme: {

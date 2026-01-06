@@ -1,5 +1,4 @@
-import AssociationFormView from "@/views/associations/AssociationFormView.vue";
-import AssociationListView from "@/views/associations/AssociationListView.vue";
+import { AssociationForm, AssociationTable } from "@/features/associations";
 
 const feature = "associations";
 
@@ -7,7 +6,7 @@ export const associationRoutes = [
   {
     path: "/associations",
     name: "associations",
-    component: AssociationListView,
+    component: AssociationTable,
     meta: {
       requiresAuth: true,
       permission: `${feature}.index`,
@@ -20,7 +19,7 @@ export const associationRoutes = [
   {
     path: "/associations/new",
     name: "association-new",
-    component: AssociationFormView,
+    component: AssociationForm,
     meta: {
       requiresAuth: true,
       permission: `${feature}.store`,
@@ -29,7 +28,7 @@ export const associationRoutes = [
   {
     path: "/associations/edit/:id",
     name: "association-edit",
-    component: AssociationFormView,
+    component: AssociationForm,
     props: true,
     meta: {
       requiresAuth: true,
@@ -39,7 +38,7 @@ export const associationRoutes = [
   {
     path: "/associations/view/:id",
     name: "association-view",
-    component: AssociationFormView,
+    component: AssociationForm,
     props: true,
     meta: {
       requiresAuth: true,
