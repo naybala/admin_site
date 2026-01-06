@@ -108,51 +108,59 @@ export function useDashboard(getMyData = false) {
     totalProperties.value = dashboardData.totalProperties ?? 0;
     totalAutos.value = dashboardData.totalAutos ?? 0;
 
-    // Use structuredClone to create non-reactive copies for charts
-    userTypeChartDataRef.value = structuredClone(
-      generatePieChartData(dashboardData.variousDataForUserType, "User Types")
+    // Use JSON cloning to create non-reactive copies for charts
+    userTypeChartDataRef.value = JSON.parse(
+      JSON.stringify(
+        generatePieChartData(dashboardData.variousDataForUserType, "User Types")
+      )
     );
     userTypeChartOptionsRef.value = generatePieChartOptions();
 
-    propertyTypeChartDataRef.value = structuredClone(
-      generatePieChartData(
-        dashboardData.variousDataForPropertyType,
-        "Property Types"
+    propertyTypeChartDataRef.value = JSON.parse(
+      JSON.stringify(
+        generatePieChartData(
+          dashboardData.variousDataForPropertyType,
+          "Property Types"
+        )
       )
     );
     propertyTypeChartOptionsRef.value = generatePieChartOptions();
 
-    autoTypeChartDataRef.value = structuredClone(
-      generatePieChartData(dashboardData.variousDataForAutoType, "Auto Types")
+    autoTypeChartDataRef.value = JSON.parse(
+      JSON.stringify(
+        generatePieChartData(dashboardData.variousDataForAutoType, "Auto Types")
+      )
     );
     autoTypeChartOptionsRef.value = generatePieChartOptions();
 
-    salesChartData.value = structuredClone({
-      labels: dashboardData.currentMonth ?? [],
-      datasets: [
-        {
-          label: "Users",
-          data: dashboardData.monthlyUserCounts ?? [],
-          fill: false,
-          borderColor: "#42A5F5",
-          tension: 0.4,
-        },
-        {
-          label: "Properties",
-          data: dashboardData.monthlyPropertyCounts ?? [],
-          fill: false,
-          borderColor: "#F24236",
-          tension: 0.4,
-        },
-        {
-          label: "Autos",
-          data: dashboardData.monthlyAutoCounts ?? [],
-          fill: false,
-          borderColor: "#66BB6A",
-          tension: 0.4,
-        },
-      ],
-    });
+    salesChartData.value = JSON.parse(
+      JSON.stringify({
+        labels: dashboardData.currentMonth ?? [],
+        datasets: [
+          {
+            label: "Users",
+            data: dashboardData.monthlyUserCounts ?? [],
+            fill: false,
+            borderColor: "#42A5F5",
+            tension: 0.4,
+          },
+          {
+            label: "Properties",
+            data: dashboardData.monthlyPropertyCounts ?? [],
+            fill: false,
+            borderColor: "#F24236",
+            tension: 0.4,
+          },
+          {
+            label: "Autos",
+            data: dashboardData.monthlyAutoCounts ?? [],
+            fill: false,
+            borderColor: "#66BB6A",
+            tension: 0.4,
+          },
+        ],
+      })
+    );
   };
 
   const debouncedUpdate = useDebounceFn((socketData: any) => {
