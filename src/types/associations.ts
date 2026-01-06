@@ -16,3 +16,9 @@ export interface AssociationIndex {
   data: Association[];
   total: number;
 }
+
+export interface AssociationListParams {
+  page: number;
+  limit: number;
+  search?: string;
+}
